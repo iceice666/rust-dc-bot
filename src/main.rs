@@ -1,15 +1,12 @@
 mod command;
+mod data;
 mod event;
-use command::ping;
+
+use command::{bonk, ping};
+use data::Data;
 use event::event_handler;
 use poise::serenity_prelude as serenity;
 
-pub struct Data {}
-impl Data {
-    pub fn new() -> Data {
-        Data {}
-    }
-}
 pub type Error = Box<dyn std::error::Error + Send + Sync>;
 pub type Context<'a> = poise::Context<'a, Data, Error>;
 pub type Result<T = (), E = Error> = std::result::Result<T, E>;
@@ -26,6 +23,7 @@ async fn main() {
             commands: vec![
                 // Put custom command here!
                 ping(),
+                bonk(),
             ],
             event_handler: |ctx, event, framework, data| {
                 Box::pin(event_handler(ctx, event, framework, data))
